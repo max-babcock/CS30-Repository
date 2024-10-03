@@ -21,19 +21,28 @@ function draw() {
 // Global
 let h = 3;
 let w = 20;
-let tallestPeak = 0;
+
 
 function genTerrain(){
   fill(0);
+  
+  let tallestPeak = 0;
+  let peakX = 0;
+
   for(let x = 0; x < width; x += 1){
     let rectHeight = noise(h);
     rectHeight = map(rectHeight, 0, 1, 10, 800);
     if (rectHeight > tallestPeak) {
       tallestPeak = rectHeight;
+      peakX = x;
     }
     rect(x, height, w, -rectHeight);
     h += 0.01
+    if(rectHeight > tallestPeak){
+      tallestPeak = rectHeight;  
+    }
   }
+  drawFlag(peakX, height - tallestPeak);
 }
 
 // Interactive Widths
@@ -55,7 +64,13 @@ function keyPressed(){
 
 // Draw Flag
 function drawFlag(x,y){
+  // RECTANGLE
   fill(193,154,107);
-  rect(x,y,5,20);
+  noStroke();
+  rect(x,y,4,-30);
+  // TRIANGLE
+  fill(255,0,0);
+  noStroke();
+  triangle(x, y-30, x, y-15 , x+15, y-22.5);
 
 }
