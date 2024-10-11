@@ -12,6 +12,10 @@ function setup() {
 
 function draw() {
   drawTime(); 
+  drawCharacter();
+  fill(191,0,255);
+  text("Max Babcock",50,windowHeight - 50)
+  textSize(30);
  
 }
 
@@ -89,14 +93,72 @@ function drawNightGround() {
 
 
 // Draw Character (move with WASD)
-function drawCharacter(){
+//Global
+let x = 400
+let y = 400
+let radius = 50;
+let eyeSize = 15
+let pupilSize = 10
+let mouthHeight = 20
+let mouthWidth = 40
 
+function drawCharacter(){
+// Head
+  fill(61,43,31);
+  circle(x, y, radius * 2);
+
+// Eyes
+  fill(255,255,255);
+  circle(x+15, y-10, eyeSize);
+
+  fill(255,255,255);
+  circle(x-15, y-10, eyeSize);
+
+// Pupils
+  fill(0);
+  circle(x-15, y-10, pupilSize);
+
+  fill(0);
+  circle(x+15, y-10, pupilSize);
+
+// Mouth
+  fill(229,43,80);
+  ellipse(x, y + 25, mouthWidth, mouthHeight);
+
+// Movement
+  if(keyIsDown(87) === true){
+    y-=5;
+  }
+
+  if(keyIsDown(83) === true){
+    y+=5;
+  }
+
+  if(keyIsDown(65) === true){
+    x-=5;
+  }
+
+  if(keyIsDown(68) === true){
+    x+=5;
+  }
+
+// Grow / Shrink
+  if(keyIsDown(38) === true){
+    faceSize(+1);
+  }
+
+  if(keyIsDown(40) === true){
+    faceSize(-1);
+  }
 }
 
-
-
-
-
+function faceSize(amount){
+  radius+=amount;
+  eyeSize+=amount;
+  pupilSize+=amount;
+  mouthHeight+=amount;
+  mouthWidth+=amount;
+}
 
 
 // Switch between Day/Night
@@ -118,11 +180,8 @@ function mousePressed(){
 
 
 
-
-
-
-
 // Adjust size when the window is resized
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
+
