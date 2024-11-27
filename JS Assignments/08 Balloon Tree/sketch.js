@@ -6,13 +6,13 @@
 let scale = 15;
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(windowWidth, windowHeight);
   background(255);
   
 }
 
 function draw() {
-  drawTree(width/2, height*.9, 90, 6);
+  drawTree(width/2, height/2, 90, 6);
 }
 
 function drawLine( x1,  y1,  x2,  y2,  depth) {
