@@ -1,15 +1,15 @@
 // Puzzle Game
 // Max Babcock
-// 10/29/2024
-
+// 11/28/2024
+//
 let NUM_ROWS = 4;
 let NUM_COLS = 5;
 let rectWidth, rectHeight;
 let currentRow, currentCol;
 let gridData = [[0,0,0,0,0],
-                [0,0,0,0,0],
-                [0,255,0,0,0],
-                [255,255,255,0,0]];
+                        [0,0,0,0,0],
+                        [0,255,0,0,0],
+                        [255,255,255,0,0]];
 
 function setup() {
   // Determine the size of each square. Could use windowHeight,windowHeight for Canvas to keep a square aspect ratio
@@ -18,22 +18,29 @@ function setup() {
   rectHeight = height/NUM_ROWS;
 }
 
+
 function draw() {
   background(220);
   determineActiveSquare();   //figure out which tile the mouse cursor is over
-  drawGrid();                //render the current game board to the screen (and the overlay)
+  drawGrid();                          //render the current game board to the screen (and the overlay)
+  winCondition();
 }
-
 
 
 function mousePressed(){
   // cross-shaped pattern flips on a mouseclick. Boundary conditions are checked within the flip function to ensure in-bounds access for array
-  flip(currentCol, currentRow);
-  flip(currentCol-1, currentRow);
-  flip(currentCol+1, currentRow);
-  flip(currentCol, currentRow-1);
-  flip(currentCol, currentRow+1);
+  if(keyIsPressed && keyCode === SHIFT){
+    flip(currentCol, currentRow);
+  }
+  else{
+    flip(currentCol, currentRow);
+    flip(currentCol-1, currentRow);
+    flip(currentCol+1, currentRow);
+    flip(currentCol, currentRow-1);
+    flip(currentCol, currentRow+1);
+  }
 }
+
 
 function flip(col, row){
   // given a column and row for the 2D array, flip its value from 0 to 255 or 255 to 0
@@ -46,11 +53,13 @@ function flip(col, row){
   }
 }
 
+
 function determineActiveSquare(){
   // An expression to run each frame to determine where the mouse currently is.
   currentRow = int(mouseY / rectHeight);
   currentCol = int(mouseX / rectWidth);
 }
+
 
 function drawGrid(){
   // Render a grid of squares - fill color set according to data stored in the 2D array
@@ -58,6 +67,44 @@ function drawGrid(){
     for (let y = 0; y < NUM_ROWS; y++){
       fill(gridData[y][x]); 
       rect(x*rectWidth, y*rectHeight, rectWidth, rectHeight);
+    }
+  }
+}
+
+
+function winCondition(){
+  winCheck = 0;
+  for(let x = 0; x < NUM_COLS; x++){
+    for(let y = 0; y < NUM_ROWS; y++){
+      if(gridData[y][x] === 255){
+        winCheck += 1;
+      }
+      else{
+        winCheck += 0;
+      }
+    }
+  }
+  if(winCheck === 20){
+    push();
+    fill(0);
+    textSize(100);
+    text('You Win!', width/4, height/2);
+    pop();
+  }
+}
+
+
+function randomizeBoard(){
+  for(let x = 0; x < NUM_COLS; x++){
+    for(let y = 0; y < NUM_ROWS; y++){
+      type = round(random(0,1));
+      print(type);
+      if(type === 0){
+        gridData.pudh(0);
+      }
+      else{
+        gridData.push(255);
+      }
     }
   }
 }
